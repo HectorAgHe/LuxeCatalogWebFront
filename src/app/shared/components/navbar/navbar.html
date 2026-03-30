@@ -1,0 +1,89 @@
+<nav class="navbar-main" [class.scrolled]="scrolled()">
+  <div class="container-xl">
+    <div class="d-flex align-items-center justify-content-between" style="height: 70px;">
+
+      <!-- Logo -->
+      <a routerLink="/" class="navbar-brand-custom" (click)="closeMenu()">
+        Lux<span>Catalog</span>
+      </a>
+
+      <!-- Links desktop -->
+      <ul class="navbar-nav-custom d-none d-lg-flex mb-0 ps-0">
+        @for (link of navLinks; track link.path) {
+          <li class="list-unstyled">
+            <a [routerLink]="link.path" routerLinkActive="active" class="nav-link-custom">
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+
+      <!-- Acciones desktop -->
+      <div class="d-none d-lg-flex align-items-center gap-2">
+        @if (isAdmin()) {
+          <a routerLink="/admin" class="btn-outline-primary-custom" (click)="closeMenu()">
+            Panel Admin
+          </a>
+        } @else if (isClient()) {
+          <a routerLink="/dashboard" class="nav-link-custom" (click)="closeMenu()">
+            Mi Cuenta
+          </a>
+          <!-- <button class="btn-outline-primary-custom" (click)="logout()"> -->
+          <button class="btn-outline-primary-custom">
+
+            Salir
+          </button>
+        } @else {
+          <a routerLink="/auth/login" class="btn-outline-primary-custom">
+            Iniciar Sesión
+          </a>
+        }
+      </div>
+
+      <!-- Hamburguesa mobile -->
+      <button class="navbar-toggler-custom d-lg-none" (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen()" aria-label="Menú">
+        @if (menuOpen()) {
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        }
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Menú mobile -->
+  @if (menuOpen()) {
+    <div class="navbar-mobile">
+      <div class="container-xl">
+
+        <ul class="list-unstyled mb-0">
+          @for (link of navLinks; track link.path) {
+            <li>
+              <a [routerLink]="link.path" routerLinkActive="active"
+                class="navbar-mobile-link" (click)="closeMenu()">
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+
+        <div class="pt-3 pb-2">
+          <a routerLink="/auth/login" class="btn-primary-custom d-block text-center"
+            (click)="closeMenu()">
+            Iniciar Sesión
+          </a>
+        </div>
+
+      </div>
+    </div>
+  }
+
+</nav>
