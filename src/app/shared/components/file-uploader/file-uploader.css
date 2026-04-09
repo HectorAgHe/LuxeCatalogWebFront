@@ -1,0 +1,198 @@
+.fu-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ── Drop zone ───────────────────────────────── */
+.fu-dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  background: rgba(255,255,255,0.02);
+  position: relative;
+  min-height: 110px;
+}
+
+.fu-dropzone:hover {
+  border-color: var(--color-primary);
+  background: rgba(244,167,176,0.04);
+}
+
+.fu-dropzone.dragging {
+  border-color: var(--color-primary);
+  background: rgba(244,167,176,0.08);
+}
+
+.fu-dropzone.loading {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.fu-input-hidden {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.fu-input-hidden:disabled {
+  cursor: not-allowed;
+}
+
+/* ── Contenido drop zone ─────────────────────── */
+.fu-dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.fu-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--color-primary-soft);
+  border: 1px solid rgba(244,167,176,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.fu-main-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-base);
+  margin: 0;
+}
+
+.fu-sub-text {
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  margin: 0;
+}
+
+.fu-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+/* ── Uploading ───────────────────────────────── */
+.fu-uploading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.fu-uploading span {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.fu-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2.5px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Preview ─────────────────────────────────── */
+.fu-preview {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-bg-input);
+}
+
+.fu-preview-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.fu-preview-pdf {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.1rem 1.25rem;
+  color: var(--color-primary);
+}
+
+.fu-filename {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  word-break: break-all;
+}
+
+/* Acciones preview */
+.fu-preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  border-top: 1px solid var(--color-border);
+  background: rgba(255,255,255,0.02);
+}
+
+.fu-btn-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.fu-btn-view:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.fu-btn-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  background: none;
+  border: none;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+  font-family: var(--font-sans);
+  margin-left: auto;
+}
+
+.fu-btn-remove:hover {
+  color: #ef4444;
+  background: rgba(239,68,68,0.08);
+}
+
+/* ── Error ───────────────────────────────────── */
+.fu-error {
+  font-size: 0.75rem;
+  color: #f87171;
+  margin: 0;
+}

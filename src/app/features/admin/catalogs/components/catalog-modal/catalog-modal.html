@@ -1,0 +1,145 @@
+<!-- Backdrop -->
+<div class="modal-backdrop" (click)="onClose()"></div>
+
+<!-- Modal -->
+<div class="modal-box">
+
+  <!-- Header -->
+  <div class="modal-header">
+    <div>
+      <h3 class="modal-title">{{ isEdit ? 'Editar Catálogo' : 'Agregar Catálogo' }}</h3>
+      <p class="modal-subtitle">{{ isEdit ? 'Modifica los datos del catálogo.' : 'Completa los datos del nuevo catálogo.' }}</p>
+    </div>
+    <button class="modal-close" (click)="onClose()" aria-label="Cerrar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="modal-error">{{ error() }}</div>
+  }
+
+  <!-- Form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-body">
+
+    <div class="row g-3">
+
+      <!-- Nombre -->
+      <div class="col-12">
+        <label class="modal-label">Nombre <span class="text-danger">*</span></label>
+        <input formControlName="name" type="text" placeholder="Ej. Primavera-Verano 2026"
+          class="modal-input" [class.is-invalid]="isInvalid('name')"/>
+        @if (isInvalid('name')) {
+          <span class="modal-field-error">El nombre es requerido</span>
+        }
+      </div>
+
+      <!-- Categoría -->
+      <div class="col-md-6">
+        <label class="modal-label">Categoría</label>
+        <input formControlName="category" type="text" placeholder="Ej. Dama, Caballero..."
+          class="modal-input"/>
+      </div>
+
+      <!-- Páginas -->
+      <div class="col-md-6">
+        <label class="modal-label">Páginas <span class="text-danger">*</span></label>
+        <input formControlName="pages" type="number" min="1" placeholder="120"
+          class="modal-input" [class.is-invalid]="isInvalid('pages')"/>
+        @if (isInvalid('pages')) {
+          <span class="modal-field-error">Ingresa un número válido</span>
+        }
+      </div>
+
+      <!-- Temporada -->
+      <div class="col-12">
+        <label class="modal-label">Temporada <span class="text-danger">*</span></label>
+        <select formControlName="seasonId" class="modal-input modal-select"
+          [class.is-invalid]="isInvalid('seasonId')">
+          <option [ngValue]="null" disabled>Selecciona una temporada</option>
+          @for (season of seasons(); track season.id) {
+            <option [ngValue]="season.id">{{ season.label }}</option>
+          }
+        </select>
+        @if (isInvalid('seasonId')) {
+          <span class="modal-field-error">Selecciona una temporada</span>
+        }
+      </div>
+
+      <!-- Input de coverImage -->
+      <div class="col-12">
+        <label class="modal-label">Imagen de portada</label>
+        <app-file-uploader
+          endpoint="catalogo"
+          accept="image/*"
+          label="Subir imagen de portada"
+          [currentUrl]="form.get('coverImage')?.value"
+          (uploaded)="form.patchValue({ coverImage: $event })"
+          (removed)="form.patchValue({ coverImage: null })"
+        />
+      </div>
+
+      <!-- PDF URL -->
+        <div class="col-12">
+          <label class="modal-label">Archivo PDF</label>
+          <app-file-uploader
+            endpoint="catalogo"
+            accept=".pdf"
+            label="Subir catálogo PDF"
+            [currentUrl]="form.get('pdfUrl')?.value"
+            (uploaded)="form.patchValue({ pdfUrl: $event })"
+            (removed)="form.patchValue({ pdfUrl: null })"
+          />
+        </div>
+
+      <!-- Toggles -->
+      <div class="col-md-6">
+        <div class="modal-toggle-row">
+          <div>
+            <p class="modal-toggle-label">Visible al público</p>
+            <p class="modal-toggle-desc">Se muestra en el home</p>
+          </div>
+          <label class="modal-switch">
+            <input type="checkbox" formControlName="visible"/>
+            <span class="modal-switch-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="modal-toggle-row">
+          <div>
+            <p class="modal-toggle-label">Visible a clientes</p>
+            <p class="modal-toggle-desc">Solo clientes logueados</p>
+          </div>
+          <label class="modal-switch">
+            <input type="checkbox" formControlName="visibleCliente"/>
+            <span class="modal-switch-slider"></span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button type="button" class="modal-btn-cancel" (click)="onClose()">
+        Cancelar
+      </button>
+      <button type="submit" class="modal-btn-save" [disabled]="loading()">
+        @if (loading()) {
+          <span class="modal-spinner"></span>
+          Guardando...
+        } @else {
+          {{ isEdit ? 'Guardar Cambios' : 'Agregar Catálogo' }}
+        }
+      </button>
+    </div>
+
+  </form>
+
+</div>

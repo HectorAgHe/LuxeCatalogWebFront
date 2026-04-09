@@ -1,0 +1,123 @@
+<div class="brand-list">
+ 
+  <!-- Header -->
+  <div class="d-flex align-items-start justify-content-between mb-4 gap-3">
+    <div>
+      <h2 class="bl-title">Brand Manager</h2>
+      <p class="bl-subtitle">Administra las marcas y sus logos.</p>
+    </div>
+    <button class="btn-primary-admin" (click)="openCreate()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Agregar Marca
+    </button>
+  </div>
+ 
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="bl-loading">
+      <div class="bl-spinner"></div>
+      <span>Cargando marcas...</span>
+    </div>
+  }
+ 
+  <!-- Error -->
+  @if (error()) {
+    <div class="bl-error">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+      </svg>
+      {{ error() }}
+    </div>
+  }
+ 
+  <!-- Grid de marcas -->
+  @if (!loading() && !error()) {
+    @if (brands().length === 0) {
+      <div class="bl-empty">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+        </svg>
+        <p>No hay marcas registradas</p>
+        <button class="btn-primary-admin" (click)="openCreate()">Agregar la primera</button>
+      </div>
+    } @else {
+      <div class="row g-3">
+        @for (brand of brands(); track brand.id) {
+          <div class="col-12 col-md-6 col-xl-4">
+            <div class="brand-card" [class.deleting]="deletingId() === brand.id">
+ 
+              <!-- Logo + info -->
+              <div class="d-flex align-items-center gap-3 flex-1 min-w-0">
+                @if (brand.logo) {
+                  <img [src]="brand.logo" [alt]="brand.name" class="brand-logo"/>
+                } @else {
+                  <div class="brand-logo-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                    </svg>
+                  </div>
+                }
+                <div class="brand-info">
+                  <p class="brand-name">{{ brand.name }}</p>
+                  @if (brand.description) {
+                    <p class="brand-desc">{{ brand.description }}</p>
+                  }
+                </div>
+              </div>
+ 
+              <!-- Acciones -->
+              <div class="brand-actions">
+                @if (deletingId() === brand.id) {
+                  <div class="d-flex flex-column align-items-end gap-1">
+                    <span class="bl-confirm-text">¿Eliminar?</span>
+                    <div class="d-flex gap-1">
+                      <button class="bl-btn-danger" (click)="onDelete(brand.id)">Sí</button>
+                      <button class="bl-btn-ghost" (click)="cancelDelete()">No</button>
+                    </div>
+                  </div>
+                } @else {
+                  <button class="bl-btn-icon" (click)="openEdit(brand)" title="Editar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                  </button>
+                  <button class="bl-btn-icon bl-btn-icon--danger" (click)="confirmDelete(brand.id)" title="Eliminar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                }
+              </div>
+ 
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+ 
+</div>
+
+
+<!-- Modal -->
+@if (showModal()) {
+  <app-brand-modal
+    [brand]="editing()"
+    (close)="closeModal()"
+    (saved)="onSaved()"
+>
+</app-brand-modal>
+}

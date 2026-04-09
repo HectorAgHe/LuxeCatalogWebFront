@@ -1,0 +1,347 @@
+/* ── Página base ─────────────────────────────────────── */
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  background: var(--color-bg-base);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Fondo decorativo ────────────────────────────────── */
+.login-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Siluetas de tenis */
+.deco-sneaker {
+  position: absolute;
+  opacity: 0.6;
+}
+
+.deco-sneaker-left {
+  width: 420px;
+  bottom: 8%;
+  left: -60px;
+  transform: rotate(-8deg);
+}
+
+.deco-sneaker-right {
+  width: 420px;
+  bottom: 8%;
+  right: -60px;
+  transform: rotate(8deg) scaleX(-1);
+}
+
+/* Agujetas */
+.deco-lace {
+  position: absolute;
+}
+
+.deco-lace-tl {
+  width: 140px;
+  top: -20px;
+  left: 5%;
+  animation: float-lace 6s ease-in-out infinite;
+}
+
+.deco-lace-tr {
+  width: 140px;
+  top: -20px;
+  right: 5%;
+  animation: float-lace 6s ease-in-out infinite 1s;
+}
+
+.deco-lace-bl {
+  width: 110px;
+  bottom: 5%;
+  left: 12%;
+  animation: float-lace 7s ease-in-out infinite 0.5s;
+}
+
+.deco-lace-br {
+  width: 110px;
+  bottom: 5%;
+  right: 12%;
+  animation: float-lace 7s ease-in-out infinite 1.5s;
+}
+
+@keyframes float-lace {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-14px) rotate(3deg); }
+}
+
+/* Glows */
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+}
+
+.glow-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--color-primary);
+  top: -100px;
+  left: -100px;
+}
+
+.glow-2 {
+  width: 350px;
+  height: 350px;
+  background: var(--color-primary);
+  bottom: -80px;
+  right: -80px;
+}
+
+.glow-3 {
+  width: 250px;
+  height: 250px;
+  background: var(--color-primary);
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.07;
+}
+
+/* ── Card ────────────────────────────────────────────── */
+.login-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(20, 20, 20, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(244, 167, 176, 0.15);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(244, 167, 176, 0.06);
+}
+
+/* ── Logo ────────────────────────────────────────────── */
+.login-logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.login-logo span {
+  color: var(--color-primary);
+}
+
+.login-tagline {
+  font-size: 0.8rem;
+  color: var(--color-text-subtle);
+  margin: 0.35rem 0 0;
+  letter-spacing: 0.5px;
+}
+
+/* ── Labels ──────────────────────────────────────────── */
+.login-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+  display: block;
+  letter-spacing: 0.3px;
+}
+
+/* ── Inputs ──────────────────────────────────────────── */
+.login-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: var(--color-text-subtle);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.login-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-base);
+  border-radius: 10px;
+  padding: 0.72rem 1rem 0.72rem 2.5rem;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-input:focus {
+  border-color: var(--color-primary);
+  background: rgba(244, 167, 176, 0.05);
+  box-shadow: 0 0 0 3px rgba(244, 167, 176, 0.1);
+}
+
+.login-input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.login-input.is-invalid {
+  border-color: #ef4444;
+}
+
+/* Ojo password */
+.login-eye {
+  position: absolute;
+  right: 0.85rem;
+  background: none;
+  border: none;
+  color: var(--color-text-subtle);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.login-eye:hover {
+  color: var(--color-primary);
+}
+
+/* ── Forgot ───────────────────────────────────────────── */
+.login-forgot {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.login-forgot:hover {
+  opacity: 0.75;
+}
+
+/* ── Error ───────────────────────────────────────────── */
+.login-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.825rem;
+  color: #f87171;
+}
+
+.login-field-error {
+  font-size: 0.75rem;
+  color: #f87171;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* ── Botón submit ────────────────────────────────────── */
+.login-btn {
+  background: var(--color-primary);
+  color: #0a0a0a;
+  border: none;
+  padding: 0.82rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+}
+
+.login-btn:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  box-shadow: 0 4px 20px rgba(244, 167, 176, 0.3);
+}
+
+.login-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.login-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.login-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(10, 10, 10, 0.3);
+  border-top-color: #0a0a0a;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Divider ─────────────────────────────────────────── */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.login-divider span {
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  white-space: nowrap;
+}
+
+/* ── Registro ────────────────────────────────────────── */
+.login-register-text {
+  font-size: 0.78rem;
+  color: var(--color-text-subtle);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.login-back {
+  font-size: 0.8rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.login-back:hover {
+  opacity: 0.75;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 576px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  .deco-sneaker-left  { width: 280px; left: -40px; }
+  .deco-sneaker-right { width: 280px; right: -40px; }
+  .deco-lace-tl, .deco-lace-tr { width: 100px; }
+}

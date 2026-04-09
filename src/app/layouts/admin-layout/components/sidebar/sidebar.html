@@ -1,0 +1,117 @@
+<aside class="sidebar" [class.open]="mobileOpen()">
+
+  <!-- Header del sidebar -->
+  <div class="sidebar-header">
+    <a routerLink="/" class="sidebar-logo">
+      Lux<span>Catalog</span>
+    </a>
+    <button class="sidebar-close d-lg-none" (click)="closeMobile()" aria-label="Cerrar menú">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Label sección -->
+  <p class="sidebar-section-label">Panel Admin</p>
+
+  <!-- Navegación -->
+  <nav class="sidebar-nav">
+    @for (link of navLinks; track link.path) {
+      <a [routerLink]="link.path" routerLinkActive="active" class="sidebar-link">
+  <span class="sidebar-link-icon">
+    @switch (link.label) {
+      @case ('Catálogos') {
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+        </svg>
+      }
+      @case ('Marcas') {
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+        </svg>
+      }
+      @case ('Temporada') {
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+      }
+      @case ('Media') {
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+      }
+      @case ('Pedidos') {
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+      }
+      @case ('Usuarios') {
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+      }
+    }
+  </span>
+  <span class="sidebar-link-label">{{ link.label }}</span>
+</a>
+    }
+  </nav>
+
+  <!-- Footer del sidebar -->
+  <div class="sidebar-footer">
+
+    <!-- Info del usuario -->
+    <div class="sidebar-user">
+      <div class="sidebar-user-avatar">
+        {{ userInitials() }}
+      </div>
+      <div class="sidebar-user-info">
+        <p class="sidebar-user-name">{{ userName() }}</p>
+        <p class="sidebar-user-role">Administrador</p>
+      </div>
+    </div>
+
+    <!-- Separador -->
+    <hr class="sidebar-divider">
+
+    <!-- Botón volver al sitio -->
+    <a routerLink="/" class="sidebar-back-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      Volver al Sitio
+    </a>
+
+    <!-- Cerrar sesión -->
+    <button class="sidebar-logout-btn" (click)="logout()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+      </svg>
+      Cerrar Sesión
+    </button>
+
+  </div>
+
+</aside>
+
+<!-- Overlay mobile -->
+@if (mobileOpen()) {
+  <div class="sidebar-overlay d-lg-none" (click)="closeMobile()"></div>
+}

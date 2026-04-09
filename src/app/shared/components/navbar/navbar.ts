@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,13 +12,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Navbar {
 
+  private authService = inject(AuthService);
+
   menuOpen = signal(false);
   scrolled = signal(false);
 
-  // TODO: reemplazar con AuthService cuando este JWT listo
-  isLoggedIn = signal(false);
-  isAdmin = signal(false);
-  isClient = signal(false);
+  isAdmin  = this.authService.isAdmin;
+  isClient = this.authService.isClient;
+  user     = this.authService.currentUser;
 
   navLinks = [
     { label: 'Catálogos', path: '/catalogos' },
@@ -25,6 +27,11 @@ export class Navbar {
     { label: 'Contacto', path: '/contacto' },
     { label: 'Nosotros', path: '/nosotros' },
   ];
+
+  logout() {
+    this.authService.logout();
+    this.closeMenu();
+  }
 
   toggleMenu() { this.menuOpen.update(v => !v); }
   closeMenu() { this.menuOpen.set(false); }

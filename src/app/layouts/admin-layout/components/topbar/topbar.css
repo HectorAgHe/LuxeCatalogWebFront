@@ -1,0 +1,77 @@
+.topbar {
+  height: 65px;
+  background: var(--color-bg-card);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Botón hamburguesa */
+.topbar-menu-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease, background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.topbar-menu-btn:hover {
+  color: #ffffff;
+  background: rgba(255,255,255,0.06);
+}
+
+/* Títulos */
+.topbar-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-base);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.topbar-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Greeting */
+.topbar-greeting {
+  font-size: 0.825rem;
+  color: var(--color-text-muted);
+}
+
+.topbar-greeting strong {
+  color: var(--color-text-base);
+  font-weight: 600;
+}
+
+/* Avatar */
+.topbar-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}

@@ -1,0 +1,192 @@
+<div class="catalog-list">
+
+  <!-- Header -->
+  <div class="d-flex align-items-start justify-content-between mb-4 gap-3">
+    <div>
+      <h2 class="cl-title">Catalog Manager</h2>
+      <p class="cl-subtitle">Administra los catálogos PDF y sus portadas.</p>
+    </div>
+    <button class="btn-primary-admin" (click)="openCreate()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+      </svg>
+      Agregar Catálogo
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="cl-loading">
+      <div class="cl-spinner"></div>
+      <span>Cargando catálogos...</span>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="cl-error">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+      </svg>
+      {{ error() }}
+    </div>
+  }
+
+  <!-- Tabla -->
+  @if (!loading() && !error()) {
+    <div class="cl-table-wrapper">
+      <table class="cl-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Temporada</th>
+            <th>Páginas</th>
+            <th class="text-center">Visible</th>
+            <th class="text-center">Cliente</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (catalogs().length === 0) {
+            <tr>
+              <td colspan="7">
+                <div class="cl-empty">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                  </svg>
+                  <p>No hay catálogos aún</p>
+                  <button class="btn-primary-admin" (click)="openCreate()">Agregar el primero</button>
+                </div>
+              </td>
+            </tr>
+          }
+
+          @for (catalog of catalogs(); track catalog.id) {
+            <tr [class.deleting]="deletingId() === catalog.id">
+
+              <!-- Nombre + portada -->
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  @if (catalog.coverImage) {
+                    <img [src]="catalog.coverImage" [alt]="catalog.name" class="cl-cover"/>
+                  } @else {
+                    <div class="cl-cover-placeholder">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                    </div>
+                  }
+                  <span class="cl-name">{{ catalog.name }}</span>
+                </div>
+              </td>
+
+              <!-- Categoría -->
+              <td>
+                @if (catalog.category) {
+                  <span class="cl-badge">{{ catalog.category }}</span>
+                } @else {
+                  <span class="cl-muted">—</span>
+                }
+              </td>
+
+              <!-- Temporada -->
+              <td class="cl-muted">{{ catalog.seasonLabel }}</td>
+
+              <!-- Páginas -->
+              <td class="cl-muted">{{ catalog.pages }}</td>
+
+              <!-- Visible (público) -->
+              <td class="text-center">
+                <button class="cl-toggle" (click)="toggleVisible(catalog)"
+                  [title]="catalog.visible ? 'Ocultar del público' : 'Mostrar al público'">
+                  @if (catalog.visible) {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="cl-eye-on">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                  } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="cl-eye-off">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 4.411m0 0L21 21"/>
+                    </svg>
+                  }
+                </button>
+              </td>
+
+              <!-- Visible cliente -->
+              <td class="text-center">
+                <button class="cl-toggle" (click)="toggleVisibleCliente(catalog)"
+                  [title]="catalog.visibleCliente ? 'Ocultar de clientes' : 'Mostrar a clientes'">
+                  @if (catalog.visibleCliente) {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="cl-eye-client">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                  } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="cl-eye-off">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 4.411m0 0L21 21"/>
+                    </svg>
+                  }
+                </button>
+              </td>
+
+              <!-- Acciones -->
+              <td class="text-center">
+                @if (deletingId() === catalog.id) {
+                  <div class="d-flex align-items-center justify-content-center gap-2">
+                    <span class="cl-confirm-text">¿Eliminar?</span>
+                    <button class="cl-btn-danger" (click)="onDelete(catalog.id)">Sí</button>
+                    <button class="cl-btn-ghost" (click)="cancelDelete()">No</button>
+                  </div>
+                } @else {
+                  <div class="d-flex align-items-center justify-content-center gap-2">
+                    <button class="cl-btn-icon" (click)="openEdit(catalog)" title="Editar">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                      </svg>
+                    </button>
+                    <button class="cl-btn-icon cl-btn-icon--danger" (click)="confirmDelete(catalog.id)" title="Eliminar">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                    </button>
+                  </div>
+                }
+              </td>
+
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>
+
+<!-- Modal -->
+@if (showModal()) {
+  <app-catalog-modal
+    [catalog]="editingCatalog()"
+    (close)="closeModal()"
+    (saved)="onSaved()"
+  />
+}

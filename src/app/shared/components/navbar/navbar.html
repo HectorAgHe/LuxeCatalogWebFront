@@ -24,13 +24,16 @@
           <a routerLink="/admin" class="btn-outline-primary-custom" (click)="closeMenu()">
             Panel Admin
           </a>
+           <!-- <button class="btn-outline-primary-custom" (click)="logout()"> -->
+          <button class="btn-outline-primary-custom" (click)="logout()">
+            Salir
+          </button>
         } @else if (isClient()) {
           <a routerLink="/dashboard" class="nav-link-custom" (click)="closeMenu()">
             Mi Cuenta
           </a>
           <!-- <button class="btn-outline-primary-custom" (click)="logout()"> -->
-          <button class="btn-outline-primary-custom">
-
+          <button class="btn-outline-primary-custom" (click)="logout()">
             Salir
           </button>
         } @else {

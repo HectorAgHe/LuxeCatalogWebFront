@@ -1,0 +1,78 @@
+<!-- Backdrop -->
+<div class="modal-backdrop" (click)="onClose()"></div>
+
+<!-- Modal -->
+<div class="modal-box">
+
+  <!-- Header -->
+  <div class="modal-header">
+    <div>
+      <h3 class="modal-title">{{ isEdit ? 'Editar Marca' : 'Agregar Marca' }}</h3>
+      <p class="modal-subtitle">{{ isEdit ? 'Modifica los datos de la marca.' : 'Completa los datos de la nueva marca.' }}</p>
+    </div>
+    <button class="modal-close" (click)="onClose()" aria-label="Cerrar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Error -->
+  @if (error()) {
+    <div class="modal-error">{{ error() }}</div>
+  }
+
+  <!-- Form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal-body">
+    <div class="row g-3">
+
+      <!-- Nombre -->
+      <div class="col-12">
+        <label class="modal-label">Nombre <span class="text-danger">*</span></label>
+        <input formControlName="name" type="text" placeholder="Ej. Nike"
+          class="modal-input" [class.is-invalid]="isInvalid('name')"/>
+        @if (isInvalid('name')) {
+          <span class="modal-field-error">El nombre es requerido</span>
+        }
+      </div>
+
+      <!-- Logo -->
+      <div class="col-12">
+        <label class="modal-label">Logo</label>
+        <app-file-uploader
+          endpoint="marca"
+          accept="image/*"
+          label="Subir logo de la marca"
+          [currentUrl]="form.get('logo')?.value"
+          (uploaded)="form.patchValue({ logo: $event })"
+          (removed)="form.patchValue({ logo: null })"
+        />
+      </div>
+
+      <!-- Descripción -->
+      <div class="col-12">
+        <label class="modal-label">Descripción</label>
+        <textarea formControlName="description" rows="3"
+          placeholder="Breve descripción de la marca..."
+          class="modal-input modal-textarea">
+        </textarea>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button type="button" class="modal-btn-cancel" (click)="onClose()">Cancelar</button>
+      <button type="submit" class="modal-btn-save" [disabled]="loading()">
+        @if (loading()) {
+          <span class="modal-spinner"></span>
+          Guardando...
+        } @else {
+          {{ isEdit ? 'Guardar Cambios' : 'Agregar Marca' }}
+        }
+      </button>
+    </div>
+
+  </form>
+</div>
